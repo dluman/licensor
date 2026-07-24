@@ -13,10 +13,10 @@ server = MCP::Server.new(
   title: "Licensor MCP Server",
   instructions: "This MCP server provides tools to discover, download, and write common open source software licenses. Use list_licenses to see what's available, recommend_license to get suggestions based on your philosophy, get_license to retrieve text, and write_license to save a license file to disk.",
   tools: [
-    Mcp::Tools::ListLicenses,
-    Mcp::Tools::GetLicense,
-    Mcp::Tools::RecommendLicense,
-    Mcp::Tools::WriteLicense,
+    Tools::ListLicenses,
+    Tools::GetLicense,
+    Tools::RecommendLicense,
+    Tools::WriteLicense
   ],
 )
 

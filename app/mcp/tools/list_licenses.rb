@@ -4,9 +4,8 @@ require "net/http"
 require "json"
 require "uri"
 
-module Mcp
-  module Tools
-    class ListLicenses < MCP::Tool
+module Tools
+  class ListLicenses < MCP::Tool
       tool_name "list_licenses"
       description "List all available open source licenses with metadata from GitHub's license API"
       input_schema(
@@ -22,12 +21,12 @@ module Mcp
               properties: {
                 key: { type: "string" },
                 name: { type: "string" },
-                spdx_id: { type: "string" },
-              },
-            },
-          },
+                spdx_id: { type: "string" }
+              }
+            }
+          }
         },
-        required: ["licenses"],
+        required: [ "licenses" ],
       )
 
       class << self
@@ -43,7 +42,7 @@ module Mcp
 
           unless response.is_a?(Net::HTTPSuccess)
             return MCP::Tool::Response.new(
-              [{ type: "text", text: "Error fetching licenses: #{response.code} #{response.message}" }],
+              [ { type: "text", text: "Error fetching licenses: #{response.code} #{response.message}" } ],
               error: true,
             )
           end
@@ -53,21 +52,20 @@ module Mcp
             {
               key: license["key"],
               name: license["name"],
-              spdx_id: license["spdx_id"],
+              spdx_id: license["spdx_id"]
             }
           end
 
           MCP::Tool::Response.new(
-            [{ type: "text", text: formatted.to_json }],
+            [ { type: "text", text: formatted.to_json } ],
             structured_content: { licenses: formatted },
           )
         rescue StandardError => e
           MCP::Tool::Response.new(
-            [{ type: "text", text: "Error: #{e.message}" }],
+            [ { type: "text", text: "Error: #{e.message}" } ],
             error: true,
           )
         end
       end
-    end
   end
 end

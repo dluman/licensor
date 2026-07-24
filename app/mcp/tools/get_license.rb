@@ -4,44 +4,43 @@ require "net/http"
 require "json"
 require "uri"
 
-module Mcp
-  module Tools
-    class GetLicense < MCP::Tool
+module Tools
+  class GetLicense < MCP::Tool
       tool_name "get_license"
       description "Fetch the full text of a specific open source license. Optionally fill template variables like [year], [fullname], [project], and [description]."
       input_schema(
         properties: {
           license_key: {
             type: "string",
-            description: "The license key (e.g., mit, apache-2.0, gpl-3.0)",
+            description: "The license key (e.g., mit, apache-2.0, gpl-3.0)"
           },
           year: {
             type: "string",
-            description: "Year to substitute for [year] in the license text (optional)",
+            description: "Year to substitute for [year] in the license text (optional)"
           },
           fullname: {
             type: "string",
-            description: "Full name to substitute for [fullname] in the license text (optional)",
+            description: "Full name to substitute for [fullname] in the license text (optional)"
           },
           project: {
             type: "string",
-            description: "Project name to substitute for [project] in the license text (optional)",
+            description: "Project name to substitute for [project] in the license text (optional)"
           },
           description: {
             type: "string",
-            description: "Project description to substitute for [description] in the license text (optional)",
-          },
+            description: "Project description to substitute for [description] in the license text (optional)"
+          }
         },
-        required: ["license_key"],
+        required: [ "license_key" ],
       )
       output_schema(
         properties: {
           key: { type: "string" },
           name: { type: "string" },
           spdx_id: { type: "string" },
-          body: { type: "string" },
+          body: { type: "string" }
         },
-        required: ["key", "name", "body"],
+        required: [ "key", "name", "body" ],
       )
 
       class << self
@@ -57,7 +56,7 @@ module Mcp
 
           unless response.is_a?(Net::HTTPSuccess)
             return MCP::Tool::Response.new(
-              [{ type: "text", text: "Error fetching license '#{license_key}': #{response.code} #{response.message}" }],
+              [ { type: "text", text: "Error fetching license '#{license_key}': #{response.code} #{response.message}" } ],
               error: true,
             )
           end
@@ -75,20 +74,19 @@ module Mcp
             key: data["key"],
             name: data["name"],
             spdx_id: data["spdx_id"],
-            body: body,
+            body: body
           }
 
           MCP::Tool::Response.new(
-            [{ type: "text", text: body }],
+            [ { type: "text", text: body } ],
             structured_content: result,
           )
         rescue StandardError => e
           MCP::Tool::Response.new(
-            [{ type: "text", text: "Error: #{e.message}" }],
+            [ { type: "text", text: "Error: #{e.message}" } ],
             error: true,
           )
         end
       end
-    end
   end
 end

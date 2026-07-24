@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "digitalocean-app-platform": {
+      "type": "local",
+      "command": ["npx", "-y", "@digitalocean/mcp", "--services", "apps"],
+      "enabled": true,
+      "environment": {
+        "DIGITALOCEAN_API_TOKEN": "{env:DIGITALOCEAN_API_KEY}"
+      },
+      "timeout": 30000
+    }
+  }
+}

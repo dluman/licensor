@@ -4,37 +4,36 @@ require "net/http"
 require "json"
 require "uri"
 
-module Mcp
-  module Tools
-    class RecommendLicense < MCP::Tool
+module Tools
+  class RecommendLicense < MCP::Tool
       tool_name "recommend_license"
       description "Recommend an open source license based on your project's requirements and philosophy."
       input_schema(
         properties: {
           permissive: {
             type: "boolean",
-            description: "Whether you want a permissive license (allows proprietary use, e.g. MIT, Apache-2.0, BSD). Defaults to true.",
+            description: "Whether you want a permissive license (allows proprietary use, e.g. MIT, Apache-2.0, BSD). Defaults to true."
           },
           copyleft: {
             type: "boolean",
-            description: "Whether you want a copyleft license (requires sharing changes, e.g. GPL, AGPL, LGPL). Defaults to false.",
+            description: "Whether you want a copyleft license (requires sharing changes, e.g. GPL, AGPL, LGPL). Defaults to false."
           },
           patent_use: {
             type: "boolean",
-            description: "Whether you want explicit patent grant (e.g. Apache-2.0). Defaults to false.",
+            description: "Whether you want explicit patent grant (e.g. Apache-2.0). Defaults to false."
           },
           simple: {
             type: "boolean",
-            description: "Whether you prefer a short, simple license (e.g. MIT, BSD-2-Clause). Defaults to true.",
+            description: "Whether you prefer a short, simple license (e.g. MIT, BSD-2-Clause). Defaults to true."
           },
           public_domain: {
             type: "boolean",
-            description: "Whether you want to dedicate your work to the public domain (e.g. CC0-1.0, Unlicense). Defaults to false.",
+            description: "Whether you want to dedicate your work to the public domain (e.g. CC0-1.0, Unlicense). Defaults to false."
           },
           network_copyleft: {
             type: "boolean",
-            description: "Whether you want network copyleft (SaaS/remote interaction triggers sharing, e.g. AGPL-3.0). Defaults to false.",
-          },
+            description: "Whether you want network copyleft (SaaS/remote interaction triggers sharing, e.g. AGPL-3.0). Defaults to false."
+          }
         },
         required: [],
       )
@@ -43,9 +42,9 @@ module Mcp
           recommendation: { type: "string" },
           license_key: { type: "string" },
           name: { type: "string" },
-          reason: { type: "string" },
+          reason: { type: "string" }
         },
-        required: ["recommendation", "license_key", "reason"],
+        required: [ "recommendation", "license_key", "reason" ],
       )
 
       class << self
@@ -98,22 +97,21 @@ module Mcp
             "bsd-3-clause" => "BSD 3-Clause New or Revised License",
             "cc0-1.0" => "Creative Commons Zero v1.0 Universal",
             "unlicense" => "The Unlicense",
-            "mpl-2.0" => "Mozilla Public License 2.0",
+            "mpl-2.0" => "Mozilla Public License 2.0"
           }
 
           result = {
             recommendation: names[license_key] || license_key,
             license_key: license_key,
             name: names[license_key] || license_key,
-            reason: reason,
+            reason: reason
           }
 
           MCP::Tool::Response.new(
-            [{ type: "text", text: "Recommended: #{result[:recommendation]} (#{license_key})\n\n#{reason}" }],
+            [ { type: "text", text: "Recommended: #{result[:recommendation]} (#{license_key})\n\n#{reason}" } ],
             structured_content: result,
           )
         end
       end
-    end
   end
 end

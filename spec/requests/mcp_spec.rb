@@ -8,7 +8,7 @@ RSpec.describe "MCP License Server", type: :request do
   # ---------------------------------------------------------------------------
   path "/mcp" do
     post "Initialize MCP session" do
-      tags ["MCP Protocol"]
+      tags [ "MCP Protocol" ]
       consumes "application/json"
       produces "application/json"
 
@@ -27,12 +27,12 @@ RSpec.describe "MCP License Server", type: :request do
                 type: :object,
                 properties: {
                   name: { type: :string, example: "licensor-client" },
-                  version: { type: :string, example: "1.0.0" },
-                },
-              },
-            },
-          },
-        },
+                  version: { type: :string, example: "1.0.0" }
+                }
+              }
+            }
+          }
+        }
       }
 
       response "200", "Initialized" do
@@ -44,8 +44,8 @@ RSpec.describe "MCP License Server", type: :request do
             params: {
               protocolVersion: "2024-11-05",
               capabilities: {},
-              clientInfo: { name: "licensor-client", version: "1.0.0" },
-            },
+              clientInfo: { name: "licensor-client", version: "1.0.0" }
+            }
           }
         end
 
@@ -64,7 +64,7 @@ RSpec.describe "MCP License Server", type: :request do
   # ---------------------------------------------------------------------------
   path "/mcp" do
     post "List available tools" do
-      tags ["MCP Tools"]
+      tags [ "MCP Tools" ]
       consumes "application/json"
       produces "application/json"
 
@@ -74,8 +74,8 @@ RSpec.describe "MCP License Server", type: :request do
           jsonrpc: { type: :string, example: "2.0" },
           id: { type: :integer, example: 2 },
           method: { type: :string, example: "tools/list" },
-          params: { type: :object },
-        },
+          params: { type: :object }
+        }
       }
 
       response "200", "Tools listed" do
@@ -84,7 +84,7 @@ RSpec.describe "MCP License Server", type: :request do
             jsonrpc: "2.0",
             id: 2,
             method: "tools/list",
-            params: {},
+            params: {}
           }
         end
 
@@ -102,7 +102,7 @@ RSpec.describe "MCP License Server", type: :request do
   # ---------------------------------------------------------------------------
   path "/mcp" do
     post "Call a tool (get_license example)" do
-      tags ["MCP Tools"]
+      tags [ "MCP Tools" ]
       consumes "application/json"
       produces "application/json"
 
@@ -121,12 +121,12 @@ RSpec.describe "MCP License Server", type: :request do
                 properties: {
                   license_key: { type: :string, example: "mit" },
                   year: { type: :string, example: "2026" },
-                  fullname: { type: :string, example: "Jane Doe" },
-                },
-              },
-            },
-          },
-        },
+                  fullname: { type: :string, example: "Jane Doe" }
+                }
+              }
+            }
+          }
+        }
       }
 
       response "200", "Tool result returned" do
@@ -137,8 +137,8 @@ RSpec.describe "MCP License Server", type: :request do
             method: "tools/call",
             params: {
               name: "get_license",
-              arguments: { license_key: "mit", year: "2026", fullname: "Jane Doe" },
-            },
+              arguments: { license_key: "mit", year: "2026", fullname: "Jane Doe" }
+            }
           }
         end
 

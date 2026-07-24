@@ -5,48 +5,47 @@ require "json"
 require "uri"
 require "fileutils"
 
-module Mcp
-  module Tools
-    class WriteLicense < MCP::Tool
+module Tools
+  class WriteLicense < MCP::Tool
       tool_name "write_license"
       description "Fetch a license and write it to a file on the server filesystem. Use this when the client requests a LICENSE file to be created."
       input_schema(
         properties: {
           license_key: {
             type: "string",
-            description: "The license key (e.g., mit, apache-2.0, gpl-3.0)",
+            description: "The license key (e.g., mit, apache-2.0, gpl-3.0)"
           },
           path: {
             type: "string",
-            description: "The file path to write the license to. Defaults to 'LICENSE' in the current directory.",
+            description: "The file path to write the license to. Defaults to 'LICENSE' in the current directory."
           },
           year: {
             type: "string",
-            description: "Year to substitute for [year] in the license text (optional)",
+            description: "Year to substitute for [year] in the license text (optional)"
           },
           fullname: {
             type: "string",
-            description: "Full name to substitute for [fullname] in the license text (optional)",
+            description: "Full name to substitute for [fullname] in the license text (optional)"
           },
           project: {
             type: "string",
-            description: "Project name to substitute for [project] in the license text (optional)",
+            description: "Project name to substitute for [project] in the license text (optional)"
           },
           description: {
             type: "string",
-            description: "Project description to substitute for [description] in the license text (optional)",
-          },
+            description: "Project description to substitute for [description] in the license text (optional)"
+          }
         },
-        required: ["license_key"],
+        required: [ "license_key" ],
       )
       output_schema(
         properties: {
           success: { type: "boolean" },
           path: { type: "string" },
           license: { type: "string" },
-          message: { type: "string" },
+          message: { type: "string" }
         },
-        required: ["success", "path"],
+        required: [ "success", "path" ],
       )
 
       class << self
@@ -70,7 +69,7 @@ module Mcp
 
           unless response.is_a?(Net::HTTPSuccess)
             return MCP::Tool::Response.new(
-              [{ type: "text", text: "Error fetching license '#{license_key}': #{response.code} #{response.message}" }],
+              [ { type: "text", text: "Error fetching license '#{license_key}': #{response.code} #{response.message}" } ],
               error: true,
             )
           end
@@ -92,20 +91,19 @@ module Mcp
             success: true,
             path: File.expand_path(path),
             license: data["name"],
-            message: "Successfully wrote #{data['name']} to #{path}",
+            message: "Successfully wrote #{data['name']} to #{path}"
           }
 
           MCP::Tool::Response.new(
-            [{ type: "text", text: result[:message] }],
+            [ { type: "text", text: result[:message] } ],
             structured_content: result,
           )
         rescue StandardError => e
           MCP::Tool::Response.new(
-            [{ type: "text", text: "Error: #{e.message}" }],
+            [ { type: "text", text: "Error: #{e.message}" } ],
             error: true,
           )
         end
       end
-    end
   end
 end
