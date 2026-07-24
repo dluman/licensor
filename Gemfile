@@ -53,5 +53,5 @@ group :development, :test do
   gem "rswag-specs", "~> 2.16"
 
   # Testing framework
-  gem "rspec-rails", "~> 7.1"
+  gem "rspec-rails", "~> 8.0"
 end
