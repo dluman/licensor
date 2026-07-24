@@ -27,7 +27,14 @@ server = MCP::Server.new(
 )
 
 # Create the Streamable HTTP transport
-transport = MCP::Server::Transports::StreamableHTTPTransport.new(server)
+# - Stateless mode: each request is self-contained (no session management required)
+# - DNS rebinding protection disabled: the app is deployed behind a reverse proxy
+#   (license.theglasshaus.org) that performs its own validation
+transport = MCP::Server::Transports::StreamableHTTPTransport.new(
+  server,
+  stateless: true,
+  dns_rebinding_protection: false
+)
 
 # Create a Rack app wrapper so we can mount it in Rails routes
 class McpRackApp

@@ -36,6 +36,7 @@ RSpec.describe "MCP License Server", type: :request do
       }
 
       response "200", "Initialized" do
+        let(:'Accept') { 'application/json, text/event-stream' }
         let(:body) do
           {
             jsonrpc: "2.0",
@@ -53,7 +54,8 @@ RSpec.describe "MCP License Server", type: :request do
           data = JSON.parse(response.body)
           expect(data["jsonrpc"]).to eq("2.0")
           expect(data["result"]["serverInfo"]["name"]).to eq("licensor")
-          expect(response.headers["mcp-session-id"]).to be_present
+          # In stateless mode, no session ID is issued
+          expect(response.headers["mcp-session-id"]).to be_nil
         end
       end
     end
@@ -79,6 +81,7 @@ RSpec.describe "MCP License Server", type: :request do
       }
 
       response "200", "Tools listed" do
+        let(:'Accept') { 'application/json, text/event-stream' }
         let(:body) do
           {
             jsonrpc: "2.0",
@@ -130,6 +133,7 @@ RSpec.describe "MCP License Server", type: :request do
       }
 
       response "200", "Tool result returned" do
+        let(:'Accept') { 'application/json, text/event-stream' }
         let(:body) do
           {
             jsonrpc: "2.0",
@@ -171,6 +175,7 @@ RSpec.describe "MCP License Server", type: :request do
       }
 
       response "200", "Prompts listed" do
+        let(:'Accept') { 'application/json, text/event-stream' }
         let(:body) do
           {
             jsonrpc: "2.0",
@@ -220,6 +225,7 @@ RSpec.describe "MCP License Server", type: :request do
       }
 
       response "200", "Prompt result returned" do
+        let(:'Accept') { 'application/json, text/event-stream' }
         let(:body) do
           {
             jsonrpc: "2.0",

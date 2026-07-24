@@ -29,7 +29,7 @@ gem "thruster", require: false
 
 # Model Context Protocol (MCP) Ruby SDK
 # https://github.com/modelcontextprotocol/ruby-sdk
-gem "mcp", "~> 0.4.0"
+gem "mcp", ">= 0.9.2"
 
 # OpenAPI (Swagger) UI and spec generation
 # https://github.com/rswag/rswag
