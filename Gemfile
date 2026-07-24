@@ -31,6 +31,11 @@ gem "thruster", require: false
 # https://github.com/modelcontextprotocol/ruby-sdk
 gem "mcp", "~> 0.4.0"
 
+# OpenAPI (Swagger) UI and spec generation
+# https://github.com/rswag/rswag
+gem "rswag-ui", "~> 2.16"
+gem "rswag-api", "~> 2.16"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -43,4 +48,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # OpenAPI spec generation from request specs
+  gem "rswag-specs", "~> 2.16"
+
+  # Testing framework
+  gem "rspec-rails", "~> 7.1"
 end

@@ -1,0 +1,57 @@
+---
+openapi: 3.0.1
+info:
+  title: Licensor MCP API
+  version: v1
+  description: |-
+    Model Context Protocol (MCP) server for discovering, downloading, and writing open source software licenses.
+
+    This API exposes a single JSON-RPC endpoint (`/v1/mcp`) over the MCP Streamable HTTP transport. Clients initialize a session, then call tools such as `list_licenses`, `get_license`, `recommend_license`, and `write_license`.
+
+    Learn more about MCP at https://modelcontextprotocol.io/
+servers:
+- url: http://localhost:3000/v1
+  description: Local development server
+paths:
+  "/mcp":
+    post:
+      summary: Call a tool (get_license example)
+      tags:
+      - - MCP Tools
+      parameters: []
+      responses:
+        '200':
+          description: Tool result returned
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jsonrpc:
+                  type: string
+                  example: '2.0'
+                id:
+                  type: integer
+                  example: 3
+                method:
+                  type: string
+                  example: tools/call
+                params:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: get_license
+                    arguments:
+                      type: object
+                      properties:
+                        license_key:
+                          type: string
+                          example: mit
+                        year:
+                          type: string
+                          example: '2026'
+                        fullname:
+                          type: string
+                          example: Jane Doe
