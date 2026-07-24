@@ -6,7 +6,7 @@ info:
   description: |-
     Model Context Protocol (MCP) server for discovering, downloading, and writing open source software licenses.
 
-    This API exposes a single JSON-RPC endpoint (`/v1/mcp`) over the MCP Streamable HTTP transport. Clients initialize a session, then call tools such as `list_licenses`, `get_license`, `recommend_license`, and `write_license`.
+    This API exposes a single JSON-RPC endpoint (`/v1/mcp`) over the MCP Streamable HTTP transport. Clients initialize a session, then call tools such as `list_licenses`, `get_license`, `recommend_license`, and `write_license`, or retrieve prompts for common licensing workflows such as `add_license`, `choose_license`, and `license_workflow`.
 
     Learn more about MCP at https://modelcontextprotocol.io/
 servers:
@@ -15,13 +15,13 @@ servers:
 paths:
   "/mcp":
     post:
-      summary: Call a tool (get_license example)
+      summary: Get a prompt (add_license example)
       tags:
-      - - MCP Tools
+      - - MCP Prompts
       parameters: []
       responses:
         '200':
-          description: Tool result returned
+          description: Prompt result returned
       requestBody:
         content:
           application/json:
@@ -33,25 +33,19 @@ paths:
                   example: '2.0'
                 id:
                   type: integer
-                  example: 3
+                  example: 5
                 method:
                   type: string
-                  example: tools/call
+                  example: prompts/get
                 params:
                   type: object
                   properties:
                     name:
                       type: string
-                      example: get_license
+                      example: add_license
                     arguments:
                       type: object
                       properties:
                         license_key:
                           type: string
                           example: mit
-                        year:
-                          type: string
-                          example: '2026'
-                        fullname:
-                          type: string
-                          example: Jane Doe

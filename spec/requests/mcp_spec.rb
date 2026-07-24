@@ -150,4 +150,95 @@ RSpec.describe "MCP License Server", type: :request do
       end
     end
   end
+
+  # ---------------------------------------------------------------------------
+  # POST /mcp - prompts/list
+  # ---------------------------------------------------------------------------
+  path "/mcp" do
+    post "List available prompts" do
+      tags [ "MCP Prompts" ]
+      consumes "application/json"
+      produces "application/json"
+
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+          jsonrpc: { type: :string, example: "2.0" },
+          id: { type: :integer, example: 4 },
+          method: { type: :string, example: "prompts/list" },
+          params: { type: :object }
+        }
+      }
+
+      response "200", "Prompts listed" do
+        let(:body) do
+          {
+            jsonrpc: "2.0",
+            id: 4,
+            method: "prompts/list",
+            params: {}
+          }
+        end
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["result"]["prompts"]).to be_an(Array)
+          expect(data["result"]["prompts"].map { |p| p["name"] }).to include("add_license", "choose_license", "license_workflow")
+        end
+      end
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # POST /mcp - prompts/get
+  # ---------------------------------------------------------------------------
+  path "/mcp" do
+    post "Get a prompt (add_license example)" do
+      tags [ "MCP Prompts" ]
+      consumes "application/json"
+      produces "application/json"
+
+      parameter name: :body, in: :body, schema: {
+        type: :object,
+        properties: {
+          jsonrpc: { type: :string, example: "2.0" },
+          id: { type: :integer, example: 5 },
+          method: { type: :string, example: "prompts/get" },
+          params: {
+            type: :object,
+            properties: {
+              name: { type: :string, example: "add_license" },
+              arguments: {
+                type: :object,
+                properties: {
+                  license_key: { type: :string, example: "mit" }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      response "200", "Prompt result returned" do
+        let(:body) do
+          {
+            jsonrpc: "2.0",
+            id: 5,
+            method: "prompts/get",
+            params: {
+              name: "add_license",
+              arguments: { license_key: "mit" }
+            }
+          }
+        end
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["result"]["messages"]).to be_an(Array)
+          expect(data["result"]["messages"].first["content"]["text"]).to include("Adding an Open Source License")
+          expect(data["result"]["messages"].first["content"]["text"]).to include("mit")
+        end
+      end
+    end
+  end
 end

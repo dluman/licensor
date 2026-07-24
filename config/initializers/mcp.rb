@@ -2,21 +2,27 @@
 
 require "mcp"
 
-# Load all tool definitions
+# Load all tool and prompt definitions
 # In development, Zeitwerk autoloads them. In production, we eager load.
 Dir[Rails.root.join("app/mcp/tools/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join("app/mcp/prompts/**/*.rb")].each { |f| require f }
 
-# Create the MCP server with all license tools
+# Create the MCP server with all license tools and prompts
 server = MCP::Server.new(
   name: "licensor",
   version: "1.0.0",
   title: "Licensor MCP Server",
-  instructions: "This MCP server provides tools to discover, download, and write common open source software licenses. Use list_licenses to see what's available, recommend_license to get suggestions based on your philosophy, get_license to retrieve text, and write_license to save a license file to disk.",
+  instructions: "This MCP server provides tools to discover, download, and write common open source software licenses. Use list_licenses to see what's available, recommend_license to get suggestions based on your philosophy, get_license to retrieve text, and write_license to save a license file to disk. Also provides prompts for common licensing workflows.",
   tools: [
     Tools::ListLicenses,
     Tools::GetLicense,
     Tools::RecommendLicense,
     Tools::WriteLicense
+  ],
+  prompts: [
+    Prompts::AddLicense,
+    Prompts::ChooseLicense,
+    Prompts::LicenseWorkflow
   ],
 )
 

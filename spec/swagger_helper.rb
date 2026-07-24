@@ -14,7 +14,7 @@ RSpec.configure do |config|
       info: {
         title: "Licensor MCP API",
         version: "v1",
-        description: "Model Context Protocol (MCP) server for discovering, downloading, and writing open source software licenses.\n\nThis API exposes a single JSON-RPC endpoint (`/v1/mcp`) over the MCP Streamable HTTP transport. Clients initialize a session, then call tools such as `list_licenses`, `get_license`, `recommend_license`, and `write_license`.\n\nLearn more about MCP at https://modelcontextprotocol.io/"
+        description: "Model Context Protocol (MCP) server for discovering, downloading, and writing open source software licenses.\n\nThis API exposes a single JSON-RPC endpoint (`/v1/mcp`) over the MCP Streamable HTTP transport. Clients initialize a session, then call tools such as `list_licenses`, `get_license`, `recommend_license`, and `write_license`, or retrieve prompts for common licensing workflows such as `add_license`, `choose_license`, and `license_workflow`.\n\nLearn more about MCP at https://modelcontextprotocol.io/"
       },
       servers: [
         {
