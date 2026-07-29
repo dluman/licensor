@@ -15,37 +15,189 @@ servers:
 paths:
   "/mcp":
     post:
-      summary: Get a prompt (add_license example)
+      summary: MCP JSON-RPC endpoint
       tags:
-      - - MCP Prompts
+      - MCP
+      operationId: mcp_rpc
+      description: |
+        Single JSON-RPC endpoint for the Model Context Protocol (MCP)
+        Streamable HTTP transport. Send JSON-RPC requests for initialize,
+        tools/list, tools/call, prompts/list, and prompts/get.
       parameters: []
       responses:
         '200':
-          description: Prompt result returned
+          description: JSON-RPC result
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                jsonrpc:
-                  type: string
-                  example: '2.0'
-                id:
-                  type: integer
-                  example: 5
-                method:
-                  type: string
-                  example: prompts/get
-                params:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      example: add_license
+              oneOf:
+              - type: object
+                title: initialize
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: '2.0'
+                  id:
+                    type: integer
+                    example: 1
+                  method:
+                    type: string
+                    enum:
+                    - initialize
+                  params:
+                    type: object
+                    properties:
+                      protocolVersion:
+                        type: string
+                        example: '2024-11-05'
+                      capabilities:
+                        type: object
+                      clientInfo:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: licensor-client
+                          version:
+                            type: string
+                            example: 1.0.0
+              - type: object
+                title: tools/list
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: '2.0'
+                  id:
+                    type: integer
+                    example: 2
+                  method:
+                    type: string
+                    enum:
+                    - tools/list
+                  params:
+                    type: object
+              - type: object
+                title: tools/call
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: '2.0'
+                  id:
+                    type: integer
+                    example: 3
+                  method:
+                    type: string
+                    enum:
+                    - tools/call
+                  params:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        enum:
+                        - get_license
+                      arguments:
+                        type: object
+                        properties:
+                          license_key:
+                            type: string
+                            example: mit
+                          year:
+                            type: string
+                            example: '2026'
+                          fullname:
+                            type: string
+                            example: Jane Doe
+              - type: object
+                title: prompts/list
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: '2.0'
+                  id:
+                    type: integer
+                    example: 4
+                  method:
+                    type: string
+                    enum:
+                    - prompts/list
+                  params:
+                    type: object
+              - type: object
+                title: prompts/get
+                properties:
+                  jsonrpc:
+                    type: string
+                    example: '2.0'
+                  id:
+                    type: integer
+                    example: 5
+                  method:
+                    type: string
+                    enum:
+                    - prompts/get
+                  params:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        enum:
+                        - add_license
+                      arguments:
+                        type: object
+                        properties:
+                          license_key:
+                            type: string
+                            example: mit
+            examples:
+              initialize:
+                summary: Initialize MCP session
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: initialize
+                  params:
+                    protocolVersion: '2024-11-05'
+                    capabilities: {}
+                    clientInfo:
+                      name: licensor-client
+                      version: 1.0.0
+              tools_list:
+                summary: List available tools
+                value:
+                  jsonrpc: '2.0'
+                  id: 2
+                  method: tools/list
+                  params: {}
+              tools_call_get_license:
+                summary: Call a tool (get_license)
+                value:
+                  jsonrpc: '2.0'
+                  id: 3
+                  method: tools/call
+                  params:
+                    name: get_license
                     arguments:
-                      type: object
-                      properties:
-                        license_key:
-                          type: string
-                          example: mit
+                      license_key: mit
+                      year: '2026'
+                      fullname: Jane Doe
+              prompts_list:
+                summary: List available prompts
+                value:
+                  jsonrpc: '2.0'
+                  id: 4
+                  method: prompts/list
+                  params: {}
+              prompts_get_add_license:
+                summary: Get a prompt (add_license)
+                value:
+                  jsonrpc: '2.0'
+                  id: 5
+                  method: prompts/get
+                  params:
+                    name: add_license
+                    arguments:
+                      license_key: mit
+        required: true
+        description: JSON-RPC request body
